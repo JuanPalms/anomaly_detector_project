@@ -14,6 +14,15 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+try:
+    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+    S3_INPUT_KEY = os.environ['TRAIN_DATA_INPUT']
+    S3_OUTPUT_KEY = os.environ['TRAIN_DATA_CLEAN']
+    WINDOW_SIZE = int(os.environ['WINDOW_SIZE'])
+except KeyError as e:
+    logger.error(f"Missing environment variable: {e}")
+    raise
+
 def run_script(script_name):
     """Runs a specified Python script using subprocess, ensuring environment variables are passed."""
     try:
