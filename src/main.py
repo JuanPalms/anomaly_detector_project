@@ -29,6 +29,5 @@ if __name__ == "__main__":
     logger.info("Starting the complete anomaly detection process.")
     run_script("src/data_prep.py")
     logger.info("Data preparation completed.")
-    #run_script("model_training.py")
-    #run_script("anomaly_detection.py")
-    #logger.info("The complete anomaly detection process finished.")
+    run_script("anomaly_detection.py")
+    logger.info("The complete anomaly detection process finished.")
