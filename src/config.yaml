@@ -1,9 +1,0 @@
-threshold_multiplier: 3
-window_size: 60
-train_data_path: sensor_data_train.csv
-test_data_path: sensor_data_test.csv
-s3_bucket_name: anomaly-detenction-project
-train_data_input: sensor_data_train.csv
-test_data_input: sensor_data_test.csv
-train_data_clean: sensor_data_train_clean.csv
-test_data_clean: sensor_data_test.csv
