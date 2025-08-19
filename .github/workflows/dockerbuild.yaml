@@ -63,5 +63,16 @@ jobs:
           printenv
 
       - name: Run Docker container
+        env:
+          THRESHOLD_MULTIPLIER: 3
+          WINDOW_SIZE: 60
+          TRAIN_DATA_PATH: sensor_data_train.csv
+          TEST_DATA_PATH: sensor_data_test.csv
+          S3_BUCKET_NAME: anomaly-detenction-project
+          TRAIN_DATA_INPUT: sensor_data_train.csv
+          TEST_DATA_INPUT: sensor_data_test.csv
+          TRAIN_DATA_CLEAN: sensor_data_train_clean.csv
+          TEST_DATA_CLEAN: sensor_data_test.csv
+
         run: |
           docker run anomaly-detection:latest
