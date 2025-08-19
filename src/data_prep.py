@@ -17,7 +17,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 try:
-    with open("config.yaml", "r") as f:
+    with open("../config.yaml", "r") as f:
         config = yaml.safe_load(f)
 
     S3_BUCKET_NAME = config['s3_bucket_name']
