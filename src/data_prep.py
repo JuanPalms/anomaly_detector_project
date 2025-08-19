@@ -17,43 +17,49 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-def _resolve_config_path() -> Path:
+S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+S3_INPUT_KEY   = os.environ['TRAIN_DATA_INPUT']
+S3_OUTPUT_KEY  = os.environ['TRAIN_DATA_CLEAN']
+WINDOW_SIZE    = os.environ['WINDOW_SIZE']
+
+#def _resolve_config_path() -> Path:
     # 1) Permite override con env
-    env_path = os.getenv("CONFIG_PATH")
-    if env_path and Path(env_path).is_file():
-        return Path(env_path)
+ #   env_path = os.getenv("CONFIG_PATH")
+  #  if env_path and Path(env_path).is_file():
+   #     return Path(env_path)
 
     # 2) Busca en el repo: ../config.yaml (desde src/)
-    here = Path(__file__).resolve()
-    repo_root_cfg = here.parent.parent / "config.yaml"
-    if repo_root_cfg.is_file():
-        return repo_root_cfg
+    #here = Path(__file__).resolve()
+    #repo_root_cfg = here.parent.parent / "config.yaml"
+    #if repo_root_cfg.is_file():
+     #   return repo_root_cfg
 
     # 3) Alternativa: src/config.yaml
-    src_cfg = here.parent / "config.yaml"
-    if src_cfg.is_file():
-        return src_cfg
+    #src_cfg = here.parent / "config.yaml"
+    #if src_cfg.is_file():
+     #   return src_cfg
 
     # 4) Último intento: /app/config.yaml (típico WORKDIR)
-    docker_cfg = Path("/app/config.yaml")
-    if docker_cfg.is_file():
-        return docker_cfg
+    #docker_cfg = Path("/app/config.yaml")
+    #if docker_cfg.is_file():
+     #   return docker_cfg
 
-    raise FileNotFoundError("config.yaml not found in CONFIG_PATH, repo root, src/, or /app/")
+    #raise FileNotFoundError("config.yaml not found in CONFIG_PATH, repo root, src/, or /app/")
 
-try:
-    CONFIG_PATH = _resolve_config_path()
-    logger.info(f"Using config at: {CONFIG_PATH}")
-    with open(CONFIG_PATH, "r") as f:
-        config = yaml.safe_load(f)
+#try:
+ #   CONFIG_PATH = _resolve_config_path()
+  #  logger.info(f"Using config at: {CONFIG_PATH}")
+   # with open(CONFIG_PATH, "r") as f:
+    #    config = yaml.safe_load(f)
 
-    S3_BUCKET_NAME = config["s3_bucket_name"]
-    S3_INPUT_KEY   = config["train_data_input"]
-    S3_OUTPUT_KEY  = config["train_data_clean"]
-    WINDOW_SIZE    = int(config["window_size"])
-except FileNotFoundError as e:
-    logger.error(str(e))
-    exit(1)
+    #S3_BUCKET_NAME = config["s3_bucket_name"]
+    #S3_INPUT_KEY   = config["train_data_input"]
+    #S3_OUTPUT_KEY  = config["train_data_clean"]
+    #WINDOW_SIZE    = int(config["window_size"])
+#except FileNotFoundError as e:
+ #   logger.error(str(e))
+  #  exit(1)
+
 
 def load_data_from_s3(bucket_name, key):
     """Loads data from a CSV file in S3 into a Pandas DataFrame."""
