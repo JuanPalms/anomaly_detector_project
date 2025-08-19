@@ -36,3 +36,28 @@ jobs:
         with:
           name: docker-image
           path: /tmp/docker-image.tar
+  run-container:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download Docker image
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-image
+          path: /tmp/
+
+      - name: Load Docker image
+        run: |
+          docker load --input /tmp/docker-image.tar
+
+      - name: Run Docker container
+        run: |
+          docker run -e THRESHOLD_MULTIPLIER=${{ env.THRESHOLD_MULTIPLIER }} \
+                     -e WINDOW_SIZE=${{ env.WINDOW_SIZE }} \
+                     -e       TRAIN_DATA_PATH=${{ env.TRAIN_DATA_PATH }} \
+                     -e       TEST_DATA_PATH = ${{env.TEST_DATA_PATH}} \
+                     anomaly-detection:latest
