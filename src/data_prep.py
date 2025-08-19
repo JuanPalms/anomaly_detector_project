@@ -6,6 +6,7 @@ import pandas as pd
 import boto3
 from io import StringIO
 import logging
+import yaml
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -16,13 +17,25 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 try:
-    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-    S3_INPUT_KEY = os.environ['TRAIN_DATA_INPUT']
-    S3_OUTPUT_KEY = os.environ['TRAIN_DATA_CLEAN']
-    WINDOW_SIZE = int(os.environ['WINDOW_SIZE'])
+    with open("config.yaml", "r") as f:
+        config = yaml.safe_load(f)
+
+    S3_BUCKET_NAME = config['s3_bucket_name']
+    S3_INPUT_KEY = config['train_data_input']
+    S3_OUTPUT_KEY = config['train_data_clean']
+    WINDOW_SIZE = int(config['window_size'])
+except FileNotFoundError:
+    logger.error("Configuration file 'config.yaml' not found.")
+    exit(1)
 except KeyError as e:
-    logger.error(f"Missing environment variable: {e}")
-    raise
+    logger.error(f"Missing configuration key: {e}")
+    exit(1)
+except yaml.YAMLError as e:
+    logger.error(f"Error parsing YAML: {e}")
+    exit(1)
+except Exception as e:
+    logger.error(f"An unexpected error occurred while loading configuration: {e}")
+    exit(1)
 
 def load_data_from_s3(bucket_name, key):
     """Loads data from a CSV file in S3 into a Pandas DataFrame."""
