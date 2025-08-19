@@ -7,6 +7,7 @@ import boto3
 from io import StringIO
 import logging
 import yaml
+from pathlib import Path
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -16,25 +17,42 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+def _resolve_config_path() -> Path:
+    # 1) Permite override con env
+    env_path = os.getenv("CONFIG_PATH")
+    if env_path and Path(env_path).is_file():
+        return Path(env_path)
+
+    # 2) Busca en el repo: ../config.yaml (desde src/)
+    here = Path(__file__).resolve()
+    repo_root_cfg = here.parent.parent / "config.yaml"
+    if repo_root_cfg.is_file():
+        return repo_root_cfg
+
+    # 3) Alternativa: src/config.yaml
+    src_cfg = here.parent / "config.yaml"
+    if src_cfg.is_file():
+        return src_cfg
+
+    # 4) Último intento: /app/config.yaml (típico WORKDIR)
+    docker_cfg = Path("/app/config.yaml")
+    if docker_cfg.is_file():
+        return docker_cfg
+
+    raise FileNotFoundError("config.yaml not found in CONFIG_PATH, repo root, src/, or /app/")
+
 try:
-    with open("/config.yaml", "r") as f:
+    CONFIG_PATH = _resolve_config_path()
+    logger.info(f"Using config at: {CONFIG_PATH}")
+    with open(CONFIG_PATH, "r") as f:
         config = yaml.safe_load(f)
 
-    S3_BUCKET_NAME = config['s3_bucket_name']
-    S3_INPUT_KEY = config['train_data_input']
-    S3_OUTPUT_KEY = config['train_data_clean']
-    WINDOW_SIZE = int(config['window_size'])
-except FileNotFoundError:
-    logger.error("Configuration file 'config.yaml' not found.")
-    exit(1)
-except KeyError as e:
-    logger.error(f"Missing configuration key: {e}")
-    exit(1)
-except yaml.YAMLError as e:
-    logger.error(f"Error parsing YAML: {e}")
-    exit(1)
-except Exception as e:
-    logger.error(f"An unexpected error occurred while loading configuration: {e}")
+    S3_BUCKET_NAME = config["s3_bucket_name"]
+    S3_INPUT_KEY   = config["train_data_input"]
+    S3_OUTPUT_KEY  = config["train_data_clean"]
+    WINDOW_SIZE    = int(config["window_size"])
+except FileNotFoundError as e:
+    logger.error(str(e))
     exit(1)
 
 def load_data_from_s3(bucket_name, key):
