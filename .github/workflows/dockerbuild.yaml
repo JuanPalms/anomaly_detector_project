@@ -10,12 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      THRESHOLD_MULTIPLIER: 3
-      WINDOW_SIZE: 60
-      TRAIN_DATA_PATH: "sensor_data_train.csv"
-      TEST_DATA_PATH: "sensor_data_test.csv"
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -56,8 +50,4 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -e THRESHOLD_MULTIPLIER=${{ env.THRESHOLD_MULTIPLIER }} \
-                     -e WINDOW_SIZE=${{ env.WINDOW_SIZE }} \
-                     -e       TRAIN_DATA_PATH=${{ env.TRAIN_DATA_PATH }} \
-                     -e       TEST_DATA_PATH = ${{env.TEST_DATA_PATH}} \
-                     anomaly-detection:latest
+          docker run -env-file env.list anomaly-detection:latest
