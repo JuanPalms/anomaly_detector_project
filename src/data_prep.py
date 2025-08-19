@@ -8,6 +8,7 @@ from io import StringIO
 import logging
 import yaml
 from pathlib import Path
+from outils import hello_world
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -22,6 +23,7 @@ S3_INPUT_KEY   = os.environ['TRAIN_DATA_INPUT']
 S3_OUTPUT_KEY  = os.environ['TRAIN_DATA_CLEAN']
 WINDOW_SIZE    = os.environ['WINDOW_SIZE']
 
+hello_world()
 
 def load_data_from_s3(bucket_name, key):
     """Loads data from a CSV file in S3 into a Pandas DataFrame."""
