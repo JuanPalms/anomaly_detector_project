@@ -25,7 +25,7 @@ def run_script(script_name):
 
 if __name__ == "__main__":
     logger.info("Starting the complete anomaly detection process.")
-    run_script("data_prep.py")
+    run_script("src/data_prep.py")
     #run_script("model_training.py")
     #run_script("anomaly_detection.py")
     #logger.info("The complete anomaly detection process finished.")
