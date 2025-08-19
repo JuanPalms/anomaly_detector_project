@@ -6,7 +6,8 @@ import os
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.INFO) 
+
 
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -14,10 +15,10 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 def run_script(script_name):
-    """Runs a specified Python script using subprocess."""
+    """Runs a specified Python script using subprocess, ensuring environment variables are passed."""
     try:
         logger.info(f"Running script: {script_name}")
-        subprocess.run(["python", script_name], check=True)
+        subprocess.run(["python", script_name], check=True, env=os.environ)
         logger.info(f"{script_name} executed successfully.")
     except subprocess.CalledProcessError as e:
         logger.error(f"Error running {script_name}: {e}")
@@ -25,7 +26,8 @@ def run_script(script_name):
 
 if __name__ == "__main__":
     logger.info("Starting the complete anomaly detection process.")
-    run_script("src/data_prep.py")
+    run_script("data_prep.py")
+    logger.info("Data preparation completed.")
     #run_script("model_training.py")
     #run_script("anomaly_detection.py")
     #logger.info("The complete anomaly detection process finished.")
