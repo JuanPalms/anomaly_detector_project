@@ -15,10 +15,10 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-S3_INPUT_KEY   = os.environ['TRAIN_DATA_INPUT']
-S3_OUTPUT_KEY  = os.environ['TRAIN_DATA_CLEAN']
-WINDOW_SIZE    = os.environ['WINDOW_SIZE']
+S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME", "anomaly-detenction-project")
+S3_INPUT_KEY   = os.getenv("TRAIN_DATA_INPUT", "sensor_data_train.csv")
+S3_OUTPUT_KEY  = os.getenv("TRAIN_DATA_CLEAN", "sensor_data_train_clean.csv")
+WINDOW_SIZE    = os.getenv("WINDOW_SIZE", 60)
 
 def load_preprocess_and_save_data(
     bucket_name: str,
