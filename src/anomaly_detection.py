@@ -9,6 +9,9 @@ import os
 import logging
 import pandas as pd
 from outils import load_data_from_s3, save_data_to_s3
+from typing import Tuple
+from pandas import DataFrame
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -99,7 +102,7 @@ def detect_anomalies_df(df: pd.DataFrame, normal_mean: float, normal_std: float,
     return anomalies
 
 
-def run_prediction():
+def run_prediction() -> None:
     """Runs the full anomaly detection pipeline for the test dataset."""
     logger.info("Start finding anomalies")
 

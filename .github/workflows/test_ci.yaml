@@ -28,6 +28,8 @@ jobs:
       - run: |
           pip install -r requirements.txt
           pip install mypy==1.11.2 types-requests boto3-stubs[s3]
+          mypy --install-types --non-interactive src
+
       - run: mypy src
 
   tests:

@@ -4,6 +4,8 @@ The script implements the data cleaning process for anomaly detection. It create
 import os
 import logging
 from outils import load_data_from_s3, handle_missing_values, save_data_to_s3
+from typing import Union
+
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -18,7 +20,13 @@ S3_INPUT_KEY   = os.environ['TRAIN_DATA_INPUT']
 S3_OUTPUT_KEY  = os.environ['TRAIN_DATA_CLEAN']
 WINDOW_SIZE    = os.environ['WINDOW_SIZE']
 
-def load_preprocess_and_save_data(bucket_name, input_key, output_key, window_size):
+def load_preprocess_and_save_data(
+    bucket_name: str,
+    input_key: str,
+    output_key: str,
+    window_size: Union[int, str],
+) -> None:
+    
     """Loads data from S3, preprocesses it, and saves it back to S3."""
     logger.info("Starting data loading, preprocessing, and saving process.")
     df = load_data_from_s3(bucket_name, input_key)

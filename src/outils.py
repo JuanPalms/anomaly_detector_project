@@ -2,6 +2,8 @@ import boto3
 import pandas as pd
 from io import StringIO
 import logging
+from typing import Optional, Union
+from pandas import DataFrame
 
 
 logger = logging.getLogger()
@@ -12,7 +14,7 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-def load_data_from_s3(bucket_name, key):
+def load_data_from_s3(bucket_name: str, key: str) -> Optional[DataFrame]:
     """Loads data from a CSV file in S3 into a Pandas DataFrame."""
     s3 = boto3.client('s3')
     try:
@@ -28,7 +30,7 @@ def load_data_from_s3(bucket_name, key):
         logger.error(f"Error loading data from S3: {e}", exc_info=True)
         return None
     
-def handle_missing_values(df, window_size):
+def handle_missing_values(df: DataFrame, window_size: Union[int, str]) -> DataFrame:
     """Replaces missing values in the 'value' column with a rolling mean."""
     try:
         logger.info(f"Handling missing values using rolling mean with window size {window_size}")
@@ -57,7 +59,7 @@ def handle_missing_values(df, window_size):
         return df
     
 
-def save_data_to_s3(df, bucket_name, key):
+def save_data_to_s3(df: DataFrame, bucket_name: str, key: str) -> None:
     """Saves a Pandas DataFrame to a CSV file in S3."""
     s3 = boto3.client('s3')
     try:
