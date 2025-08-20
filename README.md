@@ -35,3 +35,26 @@ Se asegura que el código cumpla con los estándares de calidad y pase la suite 
 Contenedorización con Docker
 
 Todo el proyecto puede ejecutarse dentro de un contenedor, garantizando portabilidad y consistencia entre entornos.
+
+`bash
+├── src/
+│   ├── data_prep.py              # Limpieza de datos
+│   ├── anomaly_detection.py      # Detección de anomalías
+│   ├── main.py                   # Orquestador del pipeline
+│   ├── outils.py                 # Funciones auxiliares (S3, limpieza, guardado)
+│
+├── tests/
+│   ├── test_outils.py
+│   ├── test_data_prep.py
+│   ├── test_anomaly_detection.py
+│   ├── test_main.py
+│   └── conftest.py
+│
+├── requirements.txt              # Dependencias principales
+├── requirements_testing.txt      # Dependencias de testing
+├── env.list                      # Variables de entorno
+├── pytest.ini                    # Configuración de pytest
+├── Dockerfile                    # Definición del contenedor
+└── .github/workflows/ci.yml      # Pipeline de GitHub Actions
+
+`
