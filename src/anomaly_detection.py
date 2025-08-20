@@ -28,7 +28,7 @@ THRESHOLD_MULTIPLIER  = float(os.getenv("THRESHOLD_MULTIPLIER", "3"))
 TEST_DATA_ANOMALIES   = os.getenv("TEST_DATA_ANOMALIES", "sensor_data_test_anomalies.csv")
 
 
-def compute_baseline_params(bucket_name: str, train_key: str) -> tuple[float, float]:
+def compute_baseline_params(bucket_name: str, train_key: str) -> Tuple[float, float]:
     """
     Loads the cleaned training dataset and computes baseline parameters.
 
@@ -58,7 +58,7 @@ def compute_baseline_params(bucket_name: str, train_key: str) -> tuple[float, fl
     return mean, std
 
 
-def detect_anomalies_df(df: pd.DataFrame, normal_mean: float, normal_std: float, k: float) -> pd.DataFrame:
+def detect_anomalies_df(df: pd.DataFrame, normal_mean: float, normal_std: float, k: float) -> DataFrame:
     """
     Detects anomalies in the test dataset based on mean and standard deviation.
 
