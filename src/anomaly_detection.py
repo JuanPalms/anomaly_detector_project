@@ -21,7 +21,7 @@ _formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messa
 _handler.setFormatter(_formatter)
 logger.addHandler(_handler)
 
-S3_BUCKET_NAME        = os.environ["S3_BUCKET_NAME"]
+S3_BUCKET_NAME        = os.getenv("S3_BUCKET_NAME", "anomaly-detenction-project")
 TRAIN_DATA_CLEAN_KEY  = os.getenv("TRAIN_DATA_CLEAN", os.getenv("TRAIN_DATA_INPUT"))  or "sensor_data_train_clean.csv"
 TEST_DATA_KEY         = os.getenv("TEST_DATA_CLEAN", os.getenv("TEST_DATA_INPUT"))  or "sensor_data_test.csv"
 THRESHOLD_MULTIPLIER  = float(os.getenv("THRESHOLD_MULTIPLIER", "3"))
