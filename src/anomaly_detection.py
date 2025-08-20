@@ -22,8 +22,8 @@ _handler.setFormatter(_formatter)
 logger.addHandler(_handler)
 
 S3_BUCKET_NAME        = os.environ["S3_BUCKET_NAME"]
-TRAIN_DATA_CLEAN_KEY  = os.getenv("TRAIN_DATA_CLEAN", os.getenv("TRAIN_DATA_INPUT"))
-TEST_DATA_KEY         = os.getenv("TEST_DATA_CLEAN", os.getenv("TEST_DATA_INPUT"))
+TRAIN_DATA_CLEAN_KEY  = os.getenv("TRAIN_DATA_CLEAN", os.getenv("TRAIN_DATA_INPUT"))  or "sensor_data_train_clean.csv"
+TEST_DATA_KEY         = os.getenv("TEST_DATA_CLEAN", os.getenv("TEST_DATA_INPUT"))  or "sensor_data_test.csv"
 THRESHOLD_MULTIPLIER  = float(os.getenv("THRESHOLD_MULTIPLIER", "3"))
 TEST_DATA_ANOMALIES   = os.getenv("TEST_DATA_ANOMALIES", "sensor_data_test_anomalies.csv")
 
