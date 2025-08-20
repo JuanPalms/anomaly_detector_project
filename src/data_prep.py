@@ -3,7 +3,6 @@ The script implements the data cleaning process for anomaly detection. It create
 """
 import os
 import logging
-from pathlib import Path
 from outils import load_data_from_s3, handle_missing_values, save_data_to_s3
 
 logger = logging.getLogger()
@@ -43,5 +42,5 @@ if __name__ == "__main__":
         logger.info("Data cleaning process completed successfully.")
 
     except Exception as e:
-        logger.exception("An unexpected error occurred during the data cleaning process.")
+        logger.exception(f"An unexpected error occurred during the data cleaning process: {e}")
         exit(1)

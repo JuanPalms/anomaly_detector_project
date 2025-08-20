@@ -121,5 +121,5 @@ if __name__ == "__main__":
     try:
         run_prediction()
     except Exception as e:
-        logger.exception("Step 2: Prediction failed")
+        logger.exception(f"Step 2: Prediction failed: {e}")
         raise
