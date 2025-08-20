@@ -69,61 +69,76 @@ En esta nueva versión, se implementaron las siguientes mejoras:
 
 1. Separación modular del código
 
-Antes: todo el flujo (entrenamiento, predicción, reporte) estaba en un único script monolítico.
+- Antes: todo el flujo (entrenamiento, predicción, reporte) estaba en un único script monolítico.
 
-Ahora: el código está dividido en módulos (data_prep.py, anomaly_detection.py, outils.py, main.py), facilitando la reutilización y el mantenimiento.
+- Ahora: el código está dividido en módulos (data_prep.py, anomaly_detection.py, outils.py, main.py), facilitando la reutilización y el mantenimiento.
 
 2. Parámetros configurables mediante variables de entorno
 
-Antes: rutas de archivos, WINDOW_SIZE y THRESHOLD_MULTIPLIER estaban hardcodeados.
+- Antes: rutas de archivos, WINDOW_SIZE y THRESHOLD_MULTIPLIER estaban hardcodeados.
 
-Ahora: se definen en env.list, lo que permite ejecutar el pipeline en distintos entornos sin modificar el código.
+- Ahora: se definen en env.list, lo que permite ejecutar el pipeline en distintos entornos sin modificar el código.
 
 3. Integración con AWS S3
 
-Antes: solo funcionaba con archivos locales (.csv).
+- Antes: solo funcionaba con archivos locales (.csv).
 
-Ahora: se puede cargar y guardar datasets directamente en S3, soportando pipelines de datos en producción.
+- Ahora: se puede cargar y guardar datasets directamente en S3, soportando pipelines de datos en producción.
 
 4. Manejo robusto de valores faltantes
 
-Antes: los NaN no eran tratados.
+- Antes: los NaN no eran tratados.
 
-Ahora: se utiliza una función dedicada (handle_missing_values) que aplica un promedio móvil y garantiza datos limpios antes de entrenar o detectar anomalías.
+- Ahora: se utiliza una función dedicada (handle_missing_values) que aplica un promedio móvil y garantiza datos limpios antes de entrenar o detectar anomalías.
 
 5. Detección de anomalías más eficiente y reutilizable
 
-Antes: la detección era iterativa fila por fila (iterrows), lo que era ineficiente.
+- Antes: la detección era iterativa fila por fila (iterrows), lo que era ineficiente.
 
-Ahora: la detección usa operaciones vectorizadas de pandas, encapsuladas en detect_anomalies_df, lo que mejora el rendimiento y la claridad del código.
+- Ahora: la detección usa operaciones vectorizadas de pandas, encapsuladas en detect_anomalies_df, lo que mejora el rendimiento y la claridad del código.
 
 6. Pipeline orquestado automáticamente
 
-Antes: se corrían pasos sueltos manualmente.
+- Antes: se corrían pasos sueltos manualmente.
 
-Ahora: main.py ejecuta todo el pipeline de forma secuencial y controlada, desde la limpieza hasta la detección.
+- Ahora: main.py ejecuta todo el pipeline de forma secuencial y controlada, desde la limpieza hasta la detección.
 
 7. Logging estructurado y robusto
 
-Antes: solo se usaban print().
+- Antes: solo se usaban print().
 
-Ahora: se emplea logging, lo que facilita monitoreo y depuración en entornos productivos.
+- Ahora: se emplea logging, lo que facilita monitoreo y depuración en entornos productivos.
 
 8. Testing automatizado con Pytest y Moto
 
-Antes: sin pruebas unitarias.
+- Antes: sin pruebas unitarias.
 
-Ahora: el proyecto incluye un set completo de tests para cada módulo, con simulación de S3 usando moto.
+- Ahora: el proyecto incluye un set completo de tests para cada módulo, con simulación de S3 usando moto.
 
 9. Contenedor con Docker
 
-Antes: se ejecutaba solo en local.
+- Antes: se ejecutaba solo en local.
 
-Ahora: el proyecto cuenta con un Dockerfile que asegura portabilidad y ejecución consistente en cualquier entorno.
+- Ahora: el proyecto cuenta con un Dockerfile que asegura portabilidad y ejecución consistente en cualquier entorno.
 
 10. Integración Continua con GitHub Actions
 
-Antes: no había validación automática.
+- Antes: no había validación automática.
 
-Ahora: cada push o pull request ejecuta el pipeline de CI (tests, linting, verificación de dependencias).
+- Ahora: cada push o pull request ejecuta el pipeline de CI (tests, linting, verificación de dependencias).
+
+### Prompts empleados para asistentes de IA
+
+1) Quiero que me ayudes a escribir un workflow de GitHub Actions.
+El objetivo es construir una imagen de Docker que utilice un archivo requirements.txt para instalar dependencias de Python.
+
+El workflow debe ejecutarse cuando se haga un push a la rama main.
+
+Debe incluir los pasos para:
+Configurar Docker.
+Construir la imagen utilizando un Dockerfile.
+Instalar dependencias desde requirements.txt.
+Explica el archivo YAML resultante con comentarios en español para entender cada parte.
+
+
 
