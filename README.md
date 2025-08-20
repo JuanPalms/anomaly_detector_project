@@ -127,18 +127,63 @@ En esta nueva versión, se implementaron las siguientes mejoras:
 
 - Ahora: cada push o pull request ejecuta el pipeline de CI (tests, linting, verificación de dependencias).
 
-### Prompts empleados para asistentes de IA
+### Ejemplos de prompts empleados para asistentes de IA
 
 1) Quiero que me ayudes a escribir un workflow de GitHub Actions.
-El objetivo es construir una imagen de Docker que utilice un archivo requirements.txt para instalar dependencias de Python.
+  El objetivo es construir una imagen de Docker que utilice un archivo requirements.txt para instalar dependencias de Python.
+  El workflow debe ejecutarse cuando se haga un push a la rama main.
+  Debe incluir los pasos para:
+    Configurar Docker.
+    Construir la imagen utilizando un Dockerfile.
+    Instalar dependencias desde requirements.txt.
+    Explica el archivo YAML resultante con comentarios en español para entender cada parte.
 
-El workflow debe ejecutarse cuando se haga un push a la rama main.
+2) Quiero que me ayudes a escribir tests unitarios para las funciones de un script en Python.
+   Usa pytest como framework de testing.
+   Cubre casos básicos y casos borde para cada función.
+   Agrega comentarios en español explicando qué valida cada test.
 
-Debe incluir los pasos para:
-Configurar Docker.
-Construir la imagen utilizando un Dockerfile.
-Instalar dependencias desde requirements.txt.
-Explica el archivo YAML resultante con comentarios en español para entender cada parte.
+3) Tengo este proyecto con la siguiente estructura:
+   ```bash
+   ├── dockerbuild.txt
+   ├── dockerfile
+   ├── src
+      │   ├── anomaly_detection.py
+      │   ├── main.py
 
+   ```
+  Quiero sugerencias concretas para modularizar el código y escalar la arquitectura.
+4) Quiero que me ayudes a escribir un workflow de GitHub Actions para ejecutar tests unitarios y validaciones de estilo/código en mi proyecto Python.
+    Los tests usan pytest.
+    Quiero medir coverage.
+    Quiero chequeos de estilo con ruff (o flake8) y mypy para tipado.
+    El proyecto vive en src/ y los tests en tests/
 
+### Mejoras en siguientes versiones
+
+1) Modelos analíticos más avanzados
+
+    Incorporar métodos más robustos que la media y desviación estándar, como mediana/MAD o técnicas de detección de cambios.
+
+    Explorar modelos de machine learning no supervisados o enfoques de forecasting para detectar anomalías en los residuos.
+
+    Considerar posibles temas de estacionalidad en los datos de sensores para controlar correctamente la deteccion de anomalias.
+
+3) Evaluación y métricas
+
+   Definir métricas de desempeño específicas (precisión, recall, F1, tasas de falsos positivos).
+
+    Crear reportes automáticos que permitan comparar distintos métodos de detección.
+
+4) Explicabilidad y reporting
+
+  Generar explicaciones claras de por qué un punto fue detectado como anomalía.
+
+  Construir dashboards o reportes visuales para monitorear anomalías a lo largo del tiempo.
+
+4) MLOps e infraestructura
+
+  Gestionar versiones de modelos y parámetros.
+
+  Automatizar despliegues y reentrenamientos usando pipelines de CI/CD más completos.
 
