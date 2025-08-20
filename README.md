@@ -4,7 +4,7 @@ Este proyecto implementa un pipeline de detección de anomalías sobre datos de 
 
 El proyecto emplea Docker para facilitar su despliegue y ejecución en cualquier entorno. Además, cuenta con integración continua mediante GitHub Actions, lo que asegura que cada cambio en el código sea probado automáticamente con los tests implementados.
 
-### Flujo del Proyecto
+## Flujo del Proyecto
 
 1. Preparación de datos (data_prep.py)
 
@@ -36,6 +36,8 @@ El proyecto emplea Docker para facilitar su despliegue y ejecución en cualquier
 
 - Todo el proyecto puede ejecutarse dentro de un contenedor, garantizando portabilidad y consistencia entre entornos.
 
+## Estructura del proyecto
+
 ``` bash
 ├── src/
 │   ├── data_prep.py              # Limpieza de datos
@@ -60,3 +62,68 @@ El proyecto emplea Docker para facilitar su despliegue y ejecución en cualquier
 
 
 ```
+
+## Mejoras con respecto a la primera versión
+
+En esta nueva versión, se implementaron las siguientes mejoras:
+
+1. Separación modular del código
+
+Antes: todo el flujo (entrenamiento, predicción, reporte) estaba en un único script monolítico.
+
+Ahora: el código está dividido en módulos (data_prep.py, anomaly_detection.py, outils.py, main.py), facilitando la reutilización y el mantenimiento.
+
+2. Parámetros configurables mediante variables de entorno
+
+Antes: rutas de archivos, WINDOW_SIZE y THRESHOLD_MULTIPLIER estaban hardcodeados.
+
+Ahora: se definen en env.list, lo que permite ejecutar el pipeline en distintos entornos sin modificar el código.
+
+3. Integración con AWS S3
+
+Antes: solo funcionaba con archivos locales (.csv).
+
+Ahora: se puede cargar y guardar datasets directamente en S3, soportando pipelines de datos en producción.
+
+4. Manejo robusto de valores faltantes
+
+Antes: los NaN no eran tratados.
+
+Ahora: se utiliza una función dedicada (handle_missing_values) que aplica un promedio móvil y garantiza datos limpios antes de entrenar o detectar anomalías.
+
+5. Detección de anomalías más eficiente y reutilizable
+
+Antes: la detección era iterativa fila por fila (iterrows), lo que era ineficiente.
+
+Ahora: la detección usa operaciones vectorizadas de pandas, encapsuladas en detect_anomalies_df, lo que mejora el rendimiento y la claridad del código.
+
+6. Pipeline orquestado automáticamente
+
+Antes: se corrían pasos sueltos manualmente.
+
+Ahora: main.py ejecuta todo el pipeline de forma secuencial y controlada, desde la limpieza hasta la detección.
+
+7. Logging estructurado y robusto
+
+Antes: solo se usaban print().
+
+Ahora: se emplea logging, lo que facilita monitoreo y depuración en entornos productivos.
+
+8. Testing automatizado con Pytest y Moto
+
+Antes: sin pruebas unitarias.
+
+Ahora: el proyecto incluye un set completo de tests para cada módulo, con simulación de S3 usando moto.
+
+9. Contenedor con Docker
+
+Antes: se ejecutaba solo en local.
+
+Ahora: el proyecto cuenta con un Dockerfile que asegura portabilidad y ejecución consistente en cualquier entorno.
+
+10. Integración Continua con GitHub Actions
+
+Antes: no había validación automática.
+
+Ahora: cada push o pull request ejecuta el pipeline de CI (tests, linting, verificación de dependencias).
+
