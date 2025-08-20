@@ -42,7 +42,7 @@ jobs:
           python-version: "3.12"
       - run: |
           pip install -r requirements.txt
-          pip install -r requirements.testing.txt
+          pip install -r requirements_testing.txt
       - run: pytest -q --cov=src --cov-report=xml --cov-fail-under=80
         env:
           AWS_ACCESS_KEY_ID: dummy
