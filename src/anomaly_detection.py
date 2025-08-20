@@ -101,7 +101,7 @@ def detect_anomalies_df(df: pd.DataFrame, normal_mean: float, normal_std: float,
 
 def run_prediction():
     """Runs the full anomaly detection pipeline for the test dataset."""
-    logger.info("=== Step 2: Prediction - start ===")
+    logger.info("Start finding anomalies")
 
     mean, std = compute_baseline_params(S3_BUCKET_NAME, TRAIN_DATA_CLEAN_KEY)
 
@@ -115,7 +115,6 @@ def run_prediction():
 
     save_data_to_s3(anomalies_df, S3_BUCKET_NAME, TEST_DATA_ANOMALIES)
     logger.info(f"Anomalies saved to s3://{S3_BUCKET_NAME}/{TEST_DATA_ANOMALIES}")
-    logger.info("=== Step 2: Prediction - end ===")
 
 
 if __name__ == "__main__":
