@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import pytest
 from pandas import DataFrame
@@ -85,6 +84,6 @@ def test_run_prediction_e2e(monkeypatch):
     ad.run_prediction()
 
     body = s3.get_object(Bucket=bucket, Key="sensor_data_test_anomalies.csv")["Body"].read().decode("utf-8")
-    lines = [l for l in body.strip().splitlines() if l]
+    lines = [line for line in body.strip().splitlines() if line]
     assert "timestamp,value,reason" in lines[0]
     assert len(lines) == 2
